@@ -10,7 +10,7 @@ ENV OS4_SDK_PATH="/opt/sdk/ppc-amigaos"
 RUN apt-get update && apt-get -y --no-install-recommends install ${PACKAGES};
 
 WORKDIR /tmp
-RUN curl -fsSL "https://walkero.gr/betas/clib2_beta8_selfcompiled.tar.xz" -o /tmp/clib2.tar.xz && \
+RUN curl -fsSL "https://walkero.gr/betas/clib2_beta8_selfcompiled_20221221.tar.xz" -o /tmp/clib2.tar.xz && \
     tar xvf clib2.tar.xz && \
     cp -r clib2 ${OS4_SDK_PATH}; \
     rm -rf /tmp/*;
