@@ -149,43 +149,43 @@ node:
 
 # # Builg images from TAG
 
-# ---
+---
 
-# kind: pipeline
-# type: docker
-# name: build-amd64-from-tag
+kind: pipeline
+type: docker
+name: build-amd64-from-tag
 
-# platform:
-#   arch: amd64
-#   os: linux
+platform:
+  arch: amd64
+  os: linux
 
-# steps:
-# - name: build-webkitondocker-tag-amd64
-#   image: plugins/docker
-#   pull: always
-#   settings:
-#     repo: walkero/webkitondocker
-#     tags:
-#       - ${DRONE_TAG/\//-}-amd64
-#     cache_from:
-#       - walkero/webkitondocker:latest-amd64
-#     dockerfile: Dockerfile
-#     purge: true
-#     username:
-#       from_secret: DOCKERHUB_USERNAME
-#     password:
-#       from_secret: DOCKERHUB_PASSWORD
+steps:
+- name: build-webkitondocker-tag-amd64
+  image: plugins/docker
+  pull: always
+  settings:
+    repo: walkero/webkitondocker
+    tags:
+      - ${DRONE_TAG/\//-}-amd64
+    cache_from:
+      - walkero/webkitondocker:latest-amd64
+    dockerfile: Dockerfile
+    purge: true
+    username:
+      from_secret: DOCKERHUB_USERNAME
+    password:
+      from_secret: DOCKERHUB_PASSWORD
 
-# trigger:
-#   event:
-#     include:
-#     - tag
+trigger:
+  event:
+    include:
+    - tag
 
-# depends_on:
-#   - awsbuilders-poweron
+depends_on:
+  - awsbuilders-poweron
 
-# node:
-#   agents: awsbuilders
+node:
+  agents: awsbuilders
 
 # ---
 
