@@ -1,5 +1,5 @@
 REPO ?= walkero/webkitondocker
-TAG ?= 1.5
+TAG ?= 1.6
 VOLUMES ?= -v "${PWD}/code":/opt/code
 WORKSPACE ?= -w /opt/code
 NAME ?= webkitondocker
@@ -10,13 +10,11 @@ default: build
 
 build:
 	docker build \
-		-t $(REPO):$(TAG) \
-		--build-arg GCC_VER=$(GCC) .
+		-t $(REPO):$(TAG) .
 
 buildnc:
 	docker build --no-cache \
-		-t $(REPO):$(TAG) \
-		--build-arg GCC_VER=$(GCC) .
+		-t $(REPO):$(TAG) .
 
 shell:
 	docker run -it --rm --name $(NAME) $(VOLUMES) $(WORKSPACE) $(REPO):$(TAG) /bin/bash
