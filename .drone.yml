@@ -112,11 +112,6 @@ trigger:
     include:
     - push
 
-depends_on:
-  - awsbuilders-poweron
-
-node:
-  agents: awsbuilders
 
 ---
 kind: pipeline
