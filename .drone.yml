@@ -29,6 +29,9 @@ trigger:
     - tag
 
 
+
+
+
 # Build latest images
 
 ---
@@ -42,7 +45,7 @@ platform:
   os: linux
 
 steps:
-- name: build-webkitondocker
+- name: build-webkitondocker-amd64
   image: plugins/docker
   pull: always
   settings:
@@ -84,7 +87,7 @@ platform:
   os: linux
 
 steps:
-- name: build-webkitondocker
+- name: build-webkitondocker-arm64
   image: plugins/docker
   pull: always
   settings:
@@ -162,7 +165,7 @@ platform:
   os: linux
 
 steps:
-- name: build-webkitondocker
+- name: build-webkitondocker-tag-amd64
   image: plugins/docker
   pull: always
   settings:
@@ -200,7 +203,7 @@ platform:
   os: linux
 
 steps:
-- name: build-webkitondocker
+- name: build-webkitondocker-tag-arm64
   image: plugins/docker
   pull: always
   settings:
@@ -229,10 +232,10 @@ node:
 
 ---
 kind: pipeline
-name: manifest-webkitondocker
+name: manifest-webkitondocker-from-tag
 
 steps:
-- name: manifest-webkitondocker-latest
+- name: manifest-webkitondocker-tag
   image: plugins/manifest
   settings:
     username:
