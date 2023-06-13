@@ -51,9 +51,9 @@ steps:
   settings:
     repo: walkero/webkitondocker
     tags:
-      - latest-amd64
+      - latest
     cache_from:
-      - walkero/webkitondocker:latest-amd64
+      - walkero/webkitondocker:latest
     dockerfile: Dockerfile
     purge: true
     username:
@@ -76,73 +76,73 @@ depends_on:
 node:
   agents: awsbuilders
 
----
+# ---
 
-kind: pipeline
-type: docker
-name: build-arm64
+# kind: pipeline
+# type: docker
+# name: build-arm64
 
-platform:
-  arch: arm64
-  os: linux
+# platform:
+#   arch: arm64
+#   os: linux
 
-steps:
-- name: build-webkitondocker-arm64
-  image: plugins/docker
-  pull: always
-  settings:
-    repo: walkero/webkitondocker
-    tags:
-      - latest-arm64
-    cache_from:
-      - walkero/webkitondocker:latest-arm64
-    dockerfile: Dockerfile
-    purge: true
-    username:
-      from_secret: DOCKERHUB_USERNAME
-    password:
-      from_secret: DOCKERHUB_PASSWORD
+# steps:
+# - name: build-webkitondocker-arm64
+#   image: plugins/docker
+#   pull: always
+#   settings:
+#     repo: walkero/webkitondocker
+#     tags:
+#       - latest-arm64
+#     cache_from:
+#       - walkero/webkitondocker:latest-arm64
+#     dockerfile: Dockerfile
+#     purge: true
+#     username:
+#       from_secret: DOCKERHUB_USERNAME
+#     password:
+#       from_secret: DOCKERHUB_PASSWORD
 
-trigger:
-  branch:
-    include:
-    - master
-    - main
-  event:
-    include:
-    - push
+# trigger:
+#   branch:
+#     include:
+#     - master
+#     - main
+#   event:
+#     include:
+#     - push
 
 
----
-kind: pipeline
-name: manifest-webkitondocker
+# ---
+# kind: pipeline
+# name: manifest-webkitondocker
 
-steps:
-- name: manifest-webkitondocker-latest
-  image: plugins/manifest
-  settings:
-    username:
-      from_secret: DOCKERHUB_USERNAME
-    password:
-      from_secret: DOCKERHUB_PASSWORD
-    target: walkero/webkitondocker:latest
-    template: walkero/webkitondocker:latest-ARCH
-    platforms:
-      - linux/amd64
-      - linux/arm64
+# steps:
+# - name: manifest-webkitondocker-latest
+#   image: plugins/manifest
+#   settings:
+#     username:
+#       from_secret: DOCKERHUB_USERNAME
+#     password:
+#       from_secret: DOCKERHUB_PASSWORD
+#     target: walkero/webkitondocker:latest
+#     template: walkero/webkitondocker:latest-ARCH
+#     platforms:
+#       - linux/amd64
+#       - linux/arm64
 
-depends_on:
-  - build-amd64
-  - build-arm64
+# depends_on:
+#   - build-amd64
+#   - build-arm64
 
-trigger:
-  branch:
-    include:
-    - master
-    - main
-  event:
-    include:
-    - push
+# trigger:
+#   branch:
+#     include:
+#     - master
+#     - main
+#   event:
+#     include:
+#     - push
 
 
 
