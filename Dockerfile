@@ -24,5 +24,11 @@ RUN curl -fsSL "https://git.walkero.gr/attachments/4efcd967-e1c1-4aa4-b6ef-b96df
     \cp ./release/* ${OS4_SDK_PATH}/ -R && \
     rm -rf /tmp/*;
 
+RUN git clone https://github.com/kas1e/Odyssey.git --depth 1 /tmp/Odyssey && \
+    mkdir -p ${OS4_SDK_PATH}/local/common/include/devices && \
+    cp /tmp/Odyssey/odyssey-r155188-1.23_SDK/SDK/include/include_h/devices/* ${OS4_SDK_PATH}/local/common/include/devices/; \
+    rm -rf /tmp/*;
+
+RUN mv ${OS4_SDK_PATH}/include/include_h/openssl ${OS4_SDK_PATH}/include/include_h/openssl_amissl
 
 WORKDIR /opt/code
