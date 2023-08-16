@@ -14,7 +14,7 @@ local buildMain(_arch='amd64') = {
 			"settings": {
 				"repo": 'walkero/webkitondocker',
 				"tags": [
-					'latest'
+					'latest-' + _arch
 				],
 				"cache_from": [
 					'walkero/webkitondocker:latest'
