@@ -1,7 +1,7 @@
-local buildMain(_arch='amd64', _tag, _tagName) = {
+local buildMain(_arch='amd64', _tag) = {
 	"kind": 'pipeline',
 	"type": 'docker',
-	"name": 'build-' + _tagName + '-' + _arch,
+	"name": 'build-' + (if _tag == 'latest' then _tag else 'bytag') + '-' + _arch,
 	"platform": {
 		"arch": _arch,
 		"os": 'linux'
@@ -55,11 +55,11 @@ local buildMain(_arch='amd64', _tag, _tagName) = {
 
 {
 	latest: {
-		amd64: buildMain('amd64', 'latest', 'latest'),
-		arm64: buildMain('arm64', 'latest', 'latest')
+		amd64: buildMain('amd64', 'latest'),
+		arm64: buildMain('arm64', 'latest')
 	},
 	droneTag: {
-		amd64: buildMain('amd64', '${DRONE_TAG}', 'bytag'),
-		arm64: buildMain('arm64', '${DRONE_TAG}', 'bytag')
+		amd64: buildMain('amd64', '${DRONE_TAG}'),
+		arm64: buildMain('arm64', '${DRONE_TAG}')
 	}
 }

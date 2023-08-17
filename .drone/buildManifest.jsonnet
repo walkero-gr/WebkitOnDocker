@@ -1,7 +1,7 @@
-local buildManifest(_tag, _tagName) = {
+local buildManifest(_tag) = {
 	"kind": 'pipeline',
 	"type": 'docker',
-	"name": 'manifest-' + _tagName,
+	"name": 'manifest-' + (if _tag == 'latest' then _tag else 'bytag'),
 	"steps": [
 		{
 			"name": 'build-manifest',
@@ -37,12 +37,12 @@ local buildManifest(_tag, _tagName) = {
 		}
 	},
 	"depends_on": [
-		'build-' + _tagName + '-amd64',
-		'build-' + _tagName + '-arm64'
+		'build-' + (if _tag == 'latest' then _tag else 'bytag') + '-amd64',
+		'build-' + (if _tag == 'latest' then _tag else 'bytag') + '-arm64'
 	]
 };
 
 {
-	latest: buildManifest('latest', 'latest'),
-	droneTag: buildManifest('${DRONE_TAG}', 'bytag'),
+	latest: buildManifest('latest'),
+	droneTag: buildManifest('${DRONE_TAG}'),
 }
