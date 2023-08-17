@@ -1,7 +1,7 @@
 local buildMain(_arch='amd64', _tag) = {
 	"kind": 'pipeline',
 	"type": 'docker',
-	"name": 'build-' + (if _tag == 'latest' then 'latest' else 'bytag') + '-' + _arch,
+	"name": 'build-' + (if _tag != 'latest' then 'bytag-') + _arch,
 	"platform": {
 		"arch": _arch,
 		"os": 'linux'
