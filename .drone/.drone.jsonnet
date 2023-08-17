@@ -8,6 +8,6 @@ local buildMain = import '.drone/buildMain.jsonnet';
 	buildMain.latest.arm64,
 	buildManifest.latest,
 	buildMain.droneTag.amd64,
-	// buildMain.droneTag.arm64,
-	// buildManifest.droneTag
+	buildMain.droneTag.arm64,
+	buildManifest.droneTag
 ]

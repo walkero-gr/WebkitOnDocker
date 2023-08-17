@@ -1,57 +1,63 @@
-local buildMain(_arch='amd64', _tag) = {
-	"kind": 'pipeline',
-	"type": 'docker',
-	"name": 'build-' + (if _tag != 'latest' then 'bytag-') + _arch,
-	"platform": {
-		"arch": _arch,
-		"os": 'linux'
-	},
-	"steps": [
-		{
-			"name": 'build',
-			"pull": 'always',
-			"image": 'plugins/docker',
-			"settings": {
-				"repo": 'walkero/webkitondocker',
-				"tags": [
-					_tag + '-' + _arch
-				],
-				"cache_from": [
-					'walkero/webkitondocker:latest'
-				],
-				"dockerfile": 'Dockerfile',
-				"purge": true,
-				// "dry_run": true,
-				"compress": true,
-				"username": {
-					"from_secret": 'DOCKERHUB_USERNAME'
-				},
-				"password": {
-					"from_secret": 'DOCKERHUB_PASSWORD'
-				},
-			}
-		}
-	],
-	"trigger": {
-		"branch": {
-			"include": [
-				'master',
-				'main'
-			]
+local buildMain(_arch='amd64', _tag) = 
+	local _tagName = if _tag == 'latest' then 
+		'latest' 
+	else 
+		'bytag';
+
+	{
+		"kind": 'pipeline',
+		"type": 'docker',
+		"name": 'build-' + _tagName + '-' + _arch,
+		"platform": {
+			"arch": _arch,
+			"os": 'linux'
 		},
-		"event": {
-			"include": [
-				(if _tag == 'latest' then 'push' else 'tag')
-			]
+		"steps": [
+			{
+				"name": 'build',
+				"pull": 'always',
+				"image": 'plugins/docker',
+				"settings": {
+					"repo": 'walkero/webkitondocker',
+					"tags": [
+						_tag + '-' + _arch
+					],
+					"cache_from": [
+						'walkero/webkitondocker:latest'
+					],
+					"dockerfile": 'Dockerfile',
+					"purge": true,
+					// "dry_run": true,
+					"compress": true,
+					"username": {
+						"from_secret": 'DOCKERHUB_USERNAME'
+					},
+					"password": {
+						"from_secret": 'DOCKERHUB_PASSWORD'
+					},
+				}
+			}
+		],
+		"trigger": {
+			"branch": {
+				"include": [
+					'master',
+					'main'
+				]
+			},
+			"event": {
+				"include": [
+					(if _tag == 'latest' then 'push' else 'tag')
+				]
+			}
+		},
+		"depends_on": [
+			'awsbuilders-poweron'
+		],
+		"node": {
+			"agents": 'awsbuilders'
 		}
-	},
-	"depends_on": [
-		'awsbuilders-poweron'
-	],
-	"node": {
-		"agents": 'awsbuilders'
-	}
-};
+	};
 
 {
 	latest: {
