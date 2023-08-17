@@ -42,5 +42,5 @@ local buildManifest(_tag, _tagName, _event) = {
 
 {
 	latest: buildManifest('latest', 'latest', ['push']),
-	droneTag: buildManifest('${DRONE_TAG/\//-}', 'bytag', ['tag']),
+	droneTag: buildManifest('${DRONE_TAG}', 'bytag', ['tag']),
 }

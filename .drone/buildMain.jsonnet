@@ -57,7 +57,7 @@ local buildMain(_arch='amd64', _tag, _tagName, _event) = {
 		arm64: buildMain('arm64', 'latest', 'latest', ['push'])
 	},
 	droneTag: {
-		amd64: buildMain('amd64', '${DRONE_TAG/\//-}', 'bytag', ['tag']),
-		arm64: buildMain('arm64', '${DRONE_TAG/\//-}', 'bytag', ['tag'])
+		amd64: buildMain('amd64', '${DRONE_TAG}', 'bytag', ['tag']),
+		arm64: buildMain('arm64', '${DRONE_TAG}', 'bytag', ['tag'])
 	}
 }
