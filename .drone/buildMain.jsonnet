@@ -1,4 +1,4 @@
-local buildMain(_arch='amd64', _tag, _tagName, _event) = {
+local buildMain(_arch='amd64', _tag, _tagName) = {
 	"kind": 'pipeline',
 	"type": 'docker',
 	"name": 'build-' + _tagName + '-' + _arch,
@@ -40,7 +40,9 @@ local buildMain(_arch='amd64', _tag, _tagName, _event) = {
 			]
 		},
 		"event": {
-			"include": _event
+			"include": [
+				(if _tag == 'latest' then 'push' else 'tag')
+			]
 		}
 	},
 	"depends_on": [
@@ -53,11 +55,11 @@ local buildMain(_arch='amd64', _tag, _tagName, _event) = {
 
 {
 	latest: {
-		amd64: buildMain('amd64', 'latest', 'latest', ['push']),
-		arm64: buildMain('arm64', 'latest', 'latest', ['push'])
+		amd64: buildMain('amd64', 'latest', 'latest'),
+		arm64: buildMain('arm64', 'latest', 'latest')
 	},
 	droneTag: {
-		amd64: buildMain('amd64', '${DRONE_TAG}', 'bytag', ['tag']),
-		arm64: buildMain('arm64', '${DRONE_TAG}', 'bytag', ['tag'])
+		amd64: buildMain('amd64', '${DRONE_TAG}', 'bytag'),
+		arm64: buildMain('arm64', '${DRONE_TAG}', 'bytag')
 	}
 }

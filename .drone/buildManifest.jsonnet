@@ -1,4 +1,4 @@
-local buildManifest(_tag, _tagName, _event) = {
+local buildManifest(_tag, _tagName) = {
 	"kind": 'pipeline',
 	"type": 'docker',
 	"name": 'manifest-' + _tagName,
@@ -31,7 +31,9 @@ local buildManifest(_tag, _tagName, _event) = {
 			]
 		},
 		"event": {
-			"include": _event
+			"include": [
+				(if _tag == 'latest' then 'push' else 'tag')
+			]
 		}
 	},
 	"depends_on": [
@@ -41,6 +43,6 @@ local buildManifest(_tag, _tagName, _event) = {
 };
 
 {
-	latest: buildManifest('latest', 'latest', ['push']),
-	droneTag: buildManifest('${DRONE_TAG}', 'bytag', ['tag']),
+	latest: buildManifest('latest', 'latest'),
+	droneTag: buildManifest('${DRONE_TAG}', 'bytag'),
 }
