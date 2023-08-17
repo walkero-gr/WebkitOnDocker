@@ -7,7 +7,7 @@ local buildManifest(_tag) =
 	{
 		"kind": 'pipeline',
 		"type": 'docker',
-		"name": 'manifest-' + _tagName,
+		"name": (if _tag == 'latest' then 'manifest-latest' else 'manifest-bytag'),
 		"steps": [
 			{
 				"name": 'build-manifest',
@@ -42,10 +42,7 @@ local buildManifest(_tag) =
 				]
 			}
 		},
-		"depends_on": [
-			'build-' + _tagName + '-amd64',
-			'build-' + _tagName + '-arm64'
-		]
+		"depends_on": (if _tag == 'latest' then ['build-latest-amd64', 'build-latest-arm64'] else ['build-bytag-amd64', 'build-bytag-arm64'])
 	};
 
 {
