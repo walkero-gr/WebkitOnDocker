@@ -1,7 +1,7 @@
-local buildMain(_arch='amd64') = {
+local buildMain(_arch='amd64', _tag) = {
 	"kind": 'pipeline',
 	"type": 'docker',
-	"name": 'build-webkitondocker-' + _arch,
+	"name": 'build-' + (if _tag == 'latest' then 'latest' else 'bytag') + '-' + _arch,
 	"platform": {
 		"arch": _arch,
 		"os": 'linux'
@@ -14,7 +14,7 @@ local buildMain(_arch='amd64') = {
 			"settings": {
 				"repo": 'walkero/webkitondocker',
 				"tags": [
-					'latest-' + _arch
+					_tag + '-' + _arch
 				],
 				"cache_from": [
 					'walkero/webkitondocker:latest'
@@ -41,7 +41,7 @@ local buildMain(_arch='amd64') = {
 		},
 		"event": {
 			"include": [
-				'push'
+				(if _tag == 'latest' then 'push' else 'tag')
 			]
 		}
 	},
@@ -54,8 +54,12 @@ local buildMain(_arch='amd64') = {
 };
 
 {
-	webkitondocker: {
-		amd64: buildMain('amd64'),
-		arm64: buildMain('arm64')
+	latest: {
+		amd64: buildMain('amd64', 'latest'),
+		arm64: buildMain('arm64', 'latest')
+	},
+	droneTag: {
+		amd64: buildMain('amd64', '${DRONE_TAG/\//-}'),
+		arm64: buildMain('arm64', '${DRONE_TAG/\//-}')
 	}
 }

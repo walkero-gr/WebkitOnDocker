@@ -1,15 +1,15 @@
-local buildManifest() = {
+local buildManifest(_tag) = {
 	"kind": 'pipeline',
 	"type": 'docker',
-	"name": 'manifest-webkitondocker-latest',
+	"name": 'manifest-' + (if _tag == 'latest' then 'latest' else 'bytag'),
 	"steps": [
 		{
 			"name": 'build-manifest',
 			"pull": 'always',
 			"image": 'plugins/manifest',
 			"settings": {
-				"target": 'walkero/webkitondocker:latest',
-				"template": 'walkero/webkitondocker:latest-ARCH',
+				"target": 'walkero/webkitondocker:' + _tag,
+				"template": 'walkero/webkitondocker:' + _tag + '-ARCH',
 				"platforms": [
 					'linux/amd64',
 					'linux/arm64'
@@ -32,16 +32,17 @@ local buildManifest() = {
 		},
 		"event": {
 			"include": [
-				'push'
+				(if _tag == 'latest' then 'push' else 'tag')
 			]
 		}
 	},
 	"depends_on": [
-		'build-webkitondocker-amd64',
-		'build-webkitondocker-arm64'
+		'build-' + (if _tag == 'latest' then 'latest' else 'bytag') + '-amd64',
+		'build-' + (if _tag == 'latest' then 'latest' else 'bytag') + '-arm64'
 	]
 };
 
 {
-	webkitondocker: buildManifest(),
+	latest: buildManifest('latest'),
+	droneTag: buildManifest('${DRONE_TAG/\//-}'),
 }

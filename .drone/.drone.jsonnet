@@ -4,7 +4,10 @@ local buildMain = import '.drone/buildMain.jsonnet';
 
 [
 	awsbuilder['poweron'],
-	buildMain.webkitondocker.amd64,
-	buildMain.webkitondocker.arm64,
-	buildManifest.webkitondocker
+	buildMain.latest.amd64,
+	buildMain.latest.arm64,
+	buildManifest.latest,
+	buildMain.droneTag.amd64,
+	buildMain.droneTag.arm64,
+	buildManifest.droneTag
 ]
