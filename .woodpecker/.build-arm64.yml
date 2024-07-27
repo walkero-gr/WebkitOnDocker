@@ -1,0 +1,27 @@
+labels:
+  role: awsbuilder
+  platform: linux/aarch64
+
+steps:
+  - name: build-webkitondocker
+    image: plugins/docker
+    settings:
+      repo: walkero/webkitondocker
+      dockerfile: Dockerfile
+      context: ./
+      compress: true
+      purge: true
+      tags:
+        - latest-amd64
+        - ${CI_COMMIT_TAG}-amd64
+      username:
+        from_secret: DOCKERHUB_USERNAME
+      password:
+        from_secret: DOCKERHUB_PASSWORD
+
+when:
+  - branch: main
+    event: [tag]
+
+depends_on:
+  - aws-poweron

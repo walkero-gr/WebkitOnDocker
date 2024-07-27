@@ -1,0 +1,40 @@
+labels:
+  role: generic
+
+steps:
+  - name: build-webkitondocker-manifest
+    image: plugins/manifest
+    environment:
+      PULLREQUEST_DRONE_PULL_REQUEST: 0
+    settings:
+      target: "walkero/webkitondocker:latest"
+      template: "walkero/webkitondocker:latest-ARCH"
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      username:
+        from_secret: DOCKERHUB_USERNAME
+      password:
+        from_secret: DOCKERHUB_PASSWORD
+  - name: build-webkitondocker-version-manifest
+    image: plugins/manifest
+    environment:
+      PULLREQUEST_DRONE_PULL_REQUEST: 0
+    settings:
+      target: "walkero/webkitondocker:${CI_COMMIT_TAG}"
+      template: "walkero/webkitondocker:${CI_COMMIT_TAG}-ARCH"
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      username:
+        from_secret: DOCKERHUB_USERNAME
+      password:
+        from_secret: DOCKERHUB_PASSWORD
+
+when:
+  - branch: main
+    event: [tag]
+
+depends_on:
+  - build-amd64
+  - build-arm64
