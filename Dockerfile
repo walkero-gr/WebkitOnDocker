@@ -1,4 +1,4 @@
-FROM walkero/amigagccondocker:os4-gcc11-2.2.0
+FROM walkero/amigagccondocker:os4-gcc11-2.1.2
 
 LABEL maintainer="Georgios Sokianos <walkero@gmail.com>"
 
