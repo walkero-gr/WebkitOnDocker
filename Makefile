@@ -1,5 +1,5 @@
 REPO ?= walkero/webkitondocker
-TAG ?= 1.6
+TAG ?= 2.0
 VOLUMES ?= -v "${PWD}/code":/opt/code
 WORKSPACE ?= -w /opt/code
 NAME ?= webkitondocker
@@ -17,7 +17,7 @@ buildnc:
 		-t $(REPO):$(TAG) .
 
 shell:
-	docker run -it --rm --name $(NAME) $(VOLUMES) $(WORKSPACE) $(REPO):$(TAG) /bin/bash
+	docker run -it --rm -u amidev --name $(NAME) $(VOLUMES) $(WORKSPACE) $(REPO):$(TAG) /bin/bash
 
 push:
 	docker push $(REPO):$(TAG)
