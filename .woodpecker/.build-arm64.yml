@@ -12,8 +12,8 @@ steps:
       compress: true
       purge: true
       tags:
-        - latest-amd64
-        - ${CI_COMMIT_TAG}-amd64
+        - latest-arm64
+        - ${CI_COMMIT_TAG}-arm64
       username:
         from_secret: DOCKERHUB_USERNAME
       password:
