@@ -1,5 +1,5 @@
 REPO ?= walkero/webkitondocker
-TAG ?= 2.0
+TAG ?= 2.1
 VOLUMES ?= -v "${PWD}/code":/opt/code
 WORKSPACE ?= -w /opt/code
 NAME ?= webkitondocker
