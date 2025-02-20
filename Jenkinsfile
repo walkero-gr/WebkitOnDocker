@@ -56,19 +56,18 @@ pipeline {
 						steps {
 							sh '''
 								docker push ${REPO}:${BUILD_TAG}-${ARCH}
+								docker push ${REPO}:latest-${ARCH}
 							'''
-
-							// docker push ${REPO}:latest-${ARCH}
 						}
 					}
-					// stage('remove-images') {
-					// 	steps {
-					// 		sh '''
-					// 			docker rmi -f $(docker images --filter=reference="${REPO}:*" -q)
-					// 			docker rmi -f $(docker images --filter=reference="walkero/amigagccondocker:*" -q)
-					// 		'''
-					// 	}
-					// }
+					stage('remove-images') {
+						steps {
+							sh '''
+								docker rmi -f $(docker images --filter=reference="${REPO}:*" -q)
+								docker rmi -f $(docker images --filter=reference="walkero/amigagccondocker:*" -q)
+							'''
+						}
+					}
 				}
 				post {
 					always {
@@ -84,11 +83,12 @@ pipeline {
 			steps {
 				sh '''
 					docker manifest create ${REPO}:${BUILD_TAG} ${REPO}:${BUILD_TAG}-amd64 ${REPO}:${BUILD_TAG}-arm64
+					docker manifest create ${REPO}:latest ${REPO}:latest-amd64 ${REPO}:latest-arm64
 					echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin
 					docker manifest push ${REPO}:${BUILD_TAG}
+					docker manifest push ${REPO}:latest
 					docker logout
 				'''
-				// docker manifest create ${REPO}:latest ${REPO}:latest-amd64 ${REPO}:latest-arm64
 			}
 		}
 	}

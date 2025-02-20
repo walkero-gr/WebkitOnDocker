@@ -1,3 +1,5 @@
+[![status-badge](https://cigh.walkero.gr/api/badges/3/status.svg)](https://cigh.walkero.gr/repos/3)
+
 # WebkitOnDocker
 This is the development environment for compiling Webkit for AmigaOS 4
 
